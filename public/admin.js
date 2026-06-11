@@ -119,7 +119,7 @@ async function api(path, options) {
 async function loadSession() {
   const session = await api('/api/session');
   if (!session.authenticated) {
-    window.location.href = `/login.html?next=${encodeURIComponent(window.location.pathname)}`;
+    window.location.replace(`/login.html?next=${encodeURIComponent(window.location.pathname)}`);
     return;
   }
   showSection(sectionFromPath(), false);
@@ -129,7 +129,7 @@ async function loadSession() {
   document.querySelector('#logoutBtn').addEventListener('click', async (e) => {
     e.preventDefault();
     await api('/api/auth/logout', { method: 'POST' });
-    window.location.href = '/login.html';
+    window.location.replace('/login.html');
   });
   await Promise.all([loadStorageSettings(), loadUploadSettings(), loadApiSettings(), loadFiles(), loadAccountSettings(), loadTokens()]);
 }

@@ -25,7 +25,7 @@ function nextUrl() {
 
 api('/api/session')
   .then((session) => {
-    if (session.authenticated) window.location.href = nextUrl();
+    if (session.authenticated) window.location.replace(nextUrl());
   })
   .catch(() => {});
 
@@ -38,7 +38,7 @@ loginForm.addEventListener('submit', async (event) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(Object.fromEntries(form.entries()))
     });
-    window.location.href = nextUrl();
+    window.location.replace(nextUrl());
   } catch (error) {
     showToast(error.message);
   }

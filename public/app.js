@@ -343,7 +343,7 @@ fetch('/api/session')
       document.querySelector('#logoutBtn').addEventListener('click', async (e) => {
         e.preventDefault();
         await fetch('/api/auth/logout', { method: 'POST' });
-        window.location.href = '/login.html';
+        window.location.replace('/login.html');
       });
     } else {
       navAuth.innerHTML = '<a href="/login.html"><svg class="icon"><use href="#i-user"></use></svg> 登录</a>';
