@@ -35,14 +35,22 @@ import { classifyNsfwUrl } from '../src/nsfw.js';
 import { deleteObject, ensureStorageReady, getObject, publicUrlFor, putObject, resolveBucket } from '../src/s3.js';
 
 const app = express();
+let dbReady = false;
+let dbInitPromise;
+
+async function ensureDb() {
+  if (!dbReady) {
+    dbInitPromise ||= initDb().then(() => { dbReady = true; });
+    await dbInitPromise;
+  }
+}
 const id = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 16);
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 100 * 1024 * 1024, files: 200 }
 });
 
-await initDb();
-
+app.use(async (_req, _res, next) => { await ensureDb(); next(); });
 app.set('trust proxy', true);
 app.use(express.json());
 app.use(cookieParser());
