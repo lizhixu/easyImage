@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理 - Node EasyImage</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="admin-page admin-auth-pending">
+    <svg aria-hidden="true" class="svg-sprite">
+      <symbol id="i-image" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13Z"/><path d="m6.5 17 3.2-3.2a1 1 0 0 1 1.4 0l1.4 1.4 3-3a1 1 0 0 1 1.4 0l.6.6"/><path d="M9 9h.01"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="m4 11 8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M10 6H6v12h4"/><path d="M14 8l4 4-4 4"/><path d="M8 12h10"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><path d="M5 6c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3Z"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h5l2 2h6A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5v-11Z"/></symbol>
+      <symbol id="i-import" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+      <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5z"/><path d="M8 4v6h8V4"/><path d="M8 20v-6h8v6"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14"/><path d="M9 7V5h6v2"/><path d="m7 7 1 13h8l1-13"/></symbol>
+      <symbol id="i-api" viewBox="0 0 24 24"><path d="M8 9 5 12l3 3"/><path d="m16 9 3 3-3 3"/><path d="m13 5-2 14"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M5 19h14"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v6h-6"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><path d="M8 8h10v12H8z"/><path d="M6 16H4V4h12v2"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 5h5v5"/><path d="m10 14 9-9"/><path d="M19 14v5H5V5h5"/></symbol>
+      <symbol id="i-chevrons-left" viewBox="0 0 24 24"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="i-chevrons-right" viewBox="0 0 24 24"><path d="m13 17 5-5-5-5"/><path d="m6 17 5-5-5-5"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    </svg>
+    <header class="topbar">
+      <nav class="nav">
+        <a class="brand" href="/"><img class="brand-logo" src="/logo.png" alt="">EasyImage</a>
+        <button class="nav-toggle" type="button" aria-label="菜单"><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span></button>
+        <div class="nav-collapse">
+          <a href="/"><svg class="icon"><use href="#i-home"></use></svg>首页</a>
+          <a class="active" href="/admin/storage"><svg class="icon"><use href="#i-settings"></use></svg>设置</a>
+          <div id="navAuth" class="nav-right"></div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div id="adminShell" class="admin-shell" hidden>
+        <aside class="admin-sidebar">
+          <button class="side-link active" data-route="storage" data-section="storageSection" type="button"><svg class="icon"><use href="#i-database"></use></svg>S3 存储配置</button>
+          <button class="side-link" data-route="upload" data-section="uploadSection" type="button"><svg class="icon"><use href="#i-upload"></use></svg>上传设置</button>
+          <button class="side-link" data-route="api" data-section="apiSection" type="button"><svg class="icon"><use href="#i-api"></use></svg>API 配置</button>
+          <button class="side-link" data-route="files" data-section="filesSection" type="button"><svg class="icon"><use href="#i-folder"></use></svg>文件管理</button>
+          <button class="side-link" data-route="account" data-section="accountSection" type="button"><svg class="icon"><use href="#i-user"></use></svg>账号设置</button>
+          <button class="side-link" data-route="tokens" data-section="tokensSection" type="button"><svg class="icon"><use href="#i-api"></use></svg>API Token</button>
+        </aside>
+
+        <div class="admin-content">
+          <section id="storageSection" class="panel admin-section" hidden>
+            <div class="panel-head">
+              <h1>S3 存储配置</h1>
+              <div id="storageHint" class="stats"></div>
+            </div>
+            <form id="storageForm">
+              <div class="import-box">
+                <div class="import-head">
+                  <label class="import-label" for="openlistImport"><svg class="icon"><use href="#i-import"></use></svg>OpenList 配置导入</label>
+                  <select id="importTarget" class="import-target">
+                    <option value="normal">导入到正常文件存储</option>
+                    <option value="suspicious">导入到可疑文件存储</option>
+                  </select>
+                </div>
+                <textarea id="openlistImport" rows="5" placeholder="粘贴 OpenList S3 存储配置，支持完整 JSON 或 addition 字段内容"></textarea>
+                <div id="importStatus" class="import-status">等待输入</div>
+              </div>
+              <div class="storage-groups">
+                <fieldset class="storage-group">
+                  <legend>正常文件存储</legend>
+                  <label>
+                    <span>Endpoint</span>
+                    <input name="normal.endpoint" placeholder="https://example.r2.cloudflarestorage.com">
+                  </label>
+                  <label>
+                    <span>Region</span>
+                    <input name="normal.region" placeholder="auto">
+                  </label>
+                  <label>
+                    <span>Access Key ID</span>
+                    <input name="normal.accessKeyId" autocomplete="off">
+                  </label>
+                  <label>
+                    <span>Secret Access Key</span>
+                    <input name="normal.secretAccessKey" autocomplete="new-password" placeholder="留空则不修改" type="password">
+                  </label>
+                  <label>
+                    <span>Bucket</span>
+                    <input name="normal.bucket">
+                  </label>
+                  <label>
+                    <span>访问域名</span>
+                    <input name="normal.publicBaseUrl" placeholder="https://img.example.com">
+                  </label>
+                  <label class="checkbox-row">
+                    <input name="normal.forcePathStyle" type="checkbox">
+                    <span>使用 Path-style URL</span>
+                  </label>
+                </fieldset>
+
+                <fieldset class="storage-group danger-border">
+                  <legend>可疑文件存储</legend>
+                  <label>
+                    <span>Endpoint</span>
+                    <input name="suspicious.endpoint" placeholder="https://example.r2.cloudflarestorage.com">
+                  </label>
+                  <label>
+                    <span>Region</span>
+                    <input name="suspicious.region" placeholder="auto">
+                  </label>
+                  <label>
+                    <span>Access Key ID</span>
+                    <input name="suspicious.accessKeyId" autocomplete="off">
+                  </label>
+                  <label>
+                    <span>Secret Access Key</span>
+                    <input name="suspicious.secretAccessKey" autocomplete="new-password" placeholder="留空则不修改" type="password">
+                  </label>
+                  <label>
+                    <span>Bucket</span>
+                    <input name="suspicious.bucket">
+                  </label>
+                  <label>
+                    <span>访问域名</span>
+                    <input name="suspicious.publicBaseUrl" placeholder="可留空">
+                  </label>
+                  <label class="checkbox-row">
+                    <input name="suspicious.forcePathStyle" type="checkbox">
+                    <span>使用 Path-style URL</span>
+                  </label>
+                </fieldset>
+              </div>
+              <div class="settings-actions">
+                <button class="btn primary" type="submit"><svg class="icon"><use href="#i-save"></use></svg>保存 S3 配置</button>
+              </div>
+            </form>
+          </section>
+
+          <section id="uploadSection" class="panel admin-section" hidden>
+            <div class="panel-head">
+              <h1>上传设置</h1>
+              <div class="stats">兼容原后台上传设置</div>
+            </div>
+            <form id="uploadForm" class="upload-settings-form">
+              <div class="settings-grid">
+                <label>
+                  <span>存储目录</span>
+                  <input name="path" placeholder="/i/">
+                </label>
+                <label>
+                  <span>存储分类路径</span>
+                  <input name="storagePath" placeholder="Y/m/d/">
+                </label>
+                <label class="wide">
+                  <span>允许的扩展名 | 非图片格式?</span>
+                  <input name="extensions" placeholder="jpg,jpeg,png,gif,bmp,webp,ico,jfif,tif,tga,svg">
+                </label>
+                <label>
+                  <span>上传文件的命名方式</span>
+                  <select name="imgName">
+                    <option value="default">默认 - 36进制时间+随机数 &gt;&gt; vx77yu</option>
+                    <option value="date">时间 &gt;&gt; 192704</option>
+                    <option value="unix">Unix &gt;&gt; 1635074840</option>
+                    <option value="crc32">CRC32 &gt;&gt; 2495551279</option>
+                    <option value="uniqid">微秒 &gt;&gt; 6175436c73418</option>
+                    <option value="snowflake">雪花 &gt;&gt; 5357520647037653166</option>
+                    <option value="source">源名 &gt;&gt; 微信图片_20211228214754</option>
+                    <option value="md5">MD5 &gt;&gt; 3888aa69eb321a2b61fcc63520bf6c82</option>
+                    <option value="sha1">SHA1 &gt;&gt; 654faac01499e0cb5fb0e9d78b21e234c63d842a</option>
+                    <option value="uuid">通用唯一识别码 &gt;&gt; 668ab647-c874-51e8-cc98-ac5c24a472b0</option>
+                    <option value="guid">全局唯一标识符 &gt;&gt; 6EDAD0CC-AB0C-4F61-BCCA-05FAD65BF0FA</option>
+                  </select>
+                </label>
+                <label>
+                  <span>* 将上传图片转换格式</span>
+                  <select name="imgConvert">
+                    <option value="">不转换</option>
+                    <option value="webp">WEBP</option>
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPG</option>
+                    <option value="gif">GIF</option>
+                    <option value="bmp">BMP</option>
+                  </select>
+                </label>
+                <label>
+                  <span>分片上传 | 设置 0 关闭</span>
+                  <input name="chunks" type="number" min="0" step="1">
+                </label>
+                <label>
+                  <span>单次最多上传</span>
+                  <input name="maxUploadFiles" type="range" min="1" max="200" step="1">
+                  <output data-output="maxUploadFiles"></output>
+                </label>
+                <label>
+                  <span>单文件最大上传(1-100MB)</span>
+                  <input name="maxSize" type="range" min="1048576" max="104857600" step="1048576">
+                  <output data-output="maxSize"></output>
+                </label>
+              </div>
+              <div class="settings-actions">
+                <button class="btn primary" type="submit"><svg class="icon"><use href="#i-save"></use></svg>保存上传设置</button>
+              </div>
+            </form>
+          </section>
+
+          <section id="apiSection" class="panel admin-section" hidden>
+            <div class="panel-head">
+              <h1>API 配置</h1>
+              <div class="stats">图片可疑识别</div>
+            </div>
+            <form id="apiForm" class="api-form">
+              <label>
+                <span>nsfwjs URL</span>
+                <input name="nsfwjsUrl" placeholder="http://127.0.0.1:3307/api/nsfw/classify">
+                <small>系统会自动追加 url 参数，例如：/api/nsfw/classify?url=图片地址；也支持在地址中写 {url} 占位符。</small>
+              </label>
+              <label>
+                <span>判定阈值</span>
+                <input name="nsfwThreshold" type="number" min="0" max="1" step="0.01" placeholder="0.6">
+                <small>Porn、Hentai、Sexy 任一 probability 大于等于该值时进入可疑存储。Drawing、Neutral 不参与可疑判定。</small>
+              </label>
+              <div class="settings-actions">
+                <button class="btn primary" type="submit"><svg class="icon"><use href="#i-save"></use></svg>保存 API 配置</button>
+              </div>
+            </form>
+          </section>
+
+          <section id="filesSection" class="panel admin-section" hidden>
+            <div class="panel-head">
+              <h1>文件管理</h1>
+              <div id="stats" class="stats"></div>
+            </div>
+            <div class="file-toolbar">
+              <div class="filter-row">
+                <button class="btn small active" data-filter="">全部</button>
+                <button class="btn small" data-filter="active">正常</button>
+                <button class="btn small danger" data-filter="suspicious">可疑</button>
+              </div>
+              <div class="file-tools">
+                <input id="fileSearch" class="file-search" placeholder="搜索文件名、路径、原因…">
+                <button id="batchApproveBtn" class="btn small" type="button" title="批量审核"><svg class="icon"><use href="#i-check"></use></svg>审核</button>
+                <button id="batchDeleteBtn" class="btn small danger" type="button" title="批量删除"><svg class="icon"><use href="#i-trash"></use></svg>删除</button>
+                <button id="refreshFilesBtn" class="btn small" type="button" title="刷新"><svg class="icon"><use href="#i-refresh"></use></svg></button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="file-table">
+                <thead>
+                  <tr>
+                    <th><input id="selectAllFiles" type="checkbox"></th>
+                    <th></th>
+                    <th>文件</th>
+                    <th>状态</th>
+                    <th>来源</th>
+                    <th>存储</th>
+                    <th>大小</th>
+                    <th>时间</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="fileRows"></tbody>
+              </table>
+            </div>
+            <div class="pagination-bar">
+              <div class="page-left">
+                <span id="pageInfo" class="muted"></span>
+                <select id="pageSizeSelect" class="page-size-select">
+                  <option value="12">12 条/页</option>
+                  <option value="24">24 条/页</option>
+                  <option value="48">48 条/页</option>
+                  <option value="96">96 条/页</option>
+                </select>
+              </div>
+              <div id="pageNumbers" class="page-numbers"></div>
+            </div>
+          </section>
+
+          <section id="accountSection" class="panel admin-section" hidden>
+            <div class="panel-head">
+              <h1>账号设置</h1>
+            </div>
+            <form id="accountForm" style="padding:16px;max-width:420px;display:grid;gap:12px">
+              <label>
+                <span style="color:var(--text-secondary);font-size:13px;font-weight:500;display:block;margin-bottom:6px">用户名</span>
+                <input name="username" autocomplete="off" placeholder="admin">
+              </label>
+              <label>
+                <span style="color:var(--text-secondary);font-size:13px;font-weight:500;display:block;margin-bottom:6px">当前密码</span>
+                <input name="currentPassword" type="password" autocomplete="current-password" placeholder="输入当前密码">
+              </label>
+              <label>
+                <span style="color:var(--text-secondary);font-size:13px;font-weight:500;display:block;margin-bottom:6px">新密码</span>
+                <input name="newPassword" type="password" autocomplete="new-password" placeholder="留空则不修改">
+              </label>
+              <div style="display:flex;justify-content:flex-end;padding-top:4px">
+                <button class="btn primary" type="submit"><svg class="icon"><use href="#i-save"></use></svg>保存</button>
+              </div>
+            </form>
+          </section>
+
+          <section id="tokensSection" class="panel admin-section" hidden>
+            <div class="panel-head">
+              <h1>API Token 管理</h1>
+              <div class="stats">用于外部上传接口鉴权</div>
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-subtle);display:flex;gap:8px">
+              <input id="newTokenName" placeholder="Token 名称（如：Typora上传）" style="max-width:280px">
+              <button id="createTokenBtn" class="btn primary small" type="button">生成 Token</button>
+            </div>
+            <div style="padding:12px 16px;font-size:12px;color:var(--muted)">
+              使用方式：<code style="background:var(--surface-subtle);padding:2px 6px;border-radius:3px">POST /api/upload/token</code>，参数 <code style="background:var(--surface-subtle);padding:2px 6px;border-radius:3px">image</code>（文件）和 <code style="background:var(--surface-subtle);padding:2px 6px;border-radius:3px">token</code>，Content-Type: multipart/form-data
+            </div>
+            <table style="margin:0">
+              <thead>
+                <tr>
+                  <th>名称</th>
+                  <th>Token</th>
+                  <th>创建时间</th>
+                  <th>最后使用</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tokenRows"></tbody>
+            </table>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <div id="confirmModal" class="modal-overlay" hidden>
+      <div class="modal-card">
+        <p id="confirmMessage" class="modal-message"></p>
+        <div class="modal-actions">
+          <button id="confirmCancel" class="btn small" type="button">取消</button>
+          <button id="confirmOk" class="btn small primary" type="button">确认</button>
+        </div>
+      </div>
+    </div>
+    <div id="toast" class="toast" hidden></div>
+    <script src="/admin.js" type="module"></script>
+  </body>
+</html>

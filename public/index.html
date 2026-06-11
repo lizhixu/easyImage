@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>简单图床 - Node EasyImage</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <svg aria-hidden="true" class="svg-sprite">
+      <symbol id="i-image" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13Z"/><path d="m6.5 17 3.2-3.2a1 1 0 0 1 1.4 0l1.4 1.4 3-3a1 1 0 0 1 1.4 0l.6.6"/><path d="M9 9h.01"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="m4 11 8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M5 19h14"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><path d="M8 8h10v12H8z"/><path d="M6 16H4V4h12v2"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14"/><path d="M16 5v14"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14"/><path d="M9 7V5h6v2"/><path d="m7 7 1 13h8l1-13"/></symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+      <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M10 6H6v12h4"/><path d="M14 8l4 4-4 4"/><path d="M8 12h10"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    </svg>
+    <header class="topbar">
+      <nav class="nav">
+        <a class="brand" href="/"><img class="brand-logo" src="/logo.png" alt="">EasyImage</a>
+        <button class="nav-toggle" type="button" aria-label="菜单"><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span></button>
+        <div class="nav-collapse">
+          <a class="active" href="/"><svg class="icon"><use href="#i-home"></use></svg>首页</a>
+          <a href="/admin/storage"><svg class="icon"><use href="#i-settings"></use></svg>设置</a>
+          <div id="navAuth" class="nav-right"></div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container home-container">
+      <section class="home-header">
+        <div>
+          <p class="eyebrow">Image Upload</p>
+          <h1>简单图床</h1>
+        </div>
+        <div class="home-pills">
+          <span>S3</span>
+          <span>SQLite / Turso</span>
+        </div>
+      </section>
+
+      <section id="dropZone" class="uploader">
+        <input id="fileInput" type="file" multiple hidden>
+        <div id="fileList" class="file-list"></div>
+        <div class="drop-title">选择文件/Ctrl+V粘贴/拖拽至此处</div>
+        <div class="actions">
+          <button id="browseBtn" class="btn" type="button"><svg class="icon"><use href="#i-plus"></use></svg>选择文件</button>
+          <button id="uploadBtn" class="btn primary" type="button"><svg class="icon"><use href="#i-upload"></use></svg>开始上传</button>
+          <button id="clearBtn" class="btn" type="button"><svg class="icon"><use href="#i-pause"></use></svg>暂停上传</button>
+          <span id="status" class="status"></span>
+        </div>
+      </section>
+
+      <section class="results">
+        <div class="results-head">
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-target="links">直链</button>
+            <button class="tab" data-target="markdown">Markdown</button>
+            <button class="tab" data-target="html">HTML</button>
+            <button class="tab" data-target="del">删除接口</button>
+          </div>
+          <button id="copyBtn" class="btn primary copy-current" type="button"><svg class="icon"><use href="#i-copy"></use></svg>复制当前</button>
+        </div>
+        <div class="result-body">
+          <textarea id="links" class="result-box active" readonly placeholder="上传成功后会显示图片直链"></textarea>
+          <textarea id="markdown" class="result-box" readonly placeholder="上传成功后会显示 Markdown"></textarea>
+          <textarea id="html" class="result-box" readonly placeholder="上传成功后会显示 HTML"></textarea>
+          <textarea id="del" class="result-box" readonly placeholder="上传成功后会显示删除接口"></textarea>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" hidden></div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
