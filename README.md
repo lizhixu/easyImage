@@ -143,26 +143,11 @@ print(r.json()['url'])
 
 Root Directory 设为 `node-easyimage`，环境变量在 Vercel 项目设置配置。`vercel.json` 已转发 `/api/*`。
 
-### EdgeOne Pages
-
-1. 在 EdgeOne Pages 控制台创建项目，连接 Git 仓库
-2. 构建配置：
-   - 框架预设：`Other`
-   - 构建根目录：`node-easyimage`
-   - 输出目录：`public`
-   - 安装命令：`npm install`
-3. 环境变量：在「环境变量」中添加所需配置（`JWT_SECRET`、`DATABASE_URL` 等）
-4. 页面部署完成后，函数会自动通过 `api/index.js` 入口运行
-
-> `edgeone.json` 已配置 Node.js 20 运行时和 30s 超时。
-
 ## 项目结构
 
 ```
 node-easyimage/
-├── api/index.js          # Vercel Serverless 入口
-├── cloud-functions/
-│   └── [[default]].js    # EdgeOne Cloud Functions 入口
+├── api/index.js          # Serverless 入口
 ├── src/
 │   ├── server.js         # 本地启动
 │   ├── app.js            # Express 路由 & 中间件
@@ -185,7 +170,6 @@ node-easyimage/
 │   └── favicon.ico       # 网站图标
 ├── package.json
 ├── vercel.json
-├── edgeone.json
 └── README.md
 ```
 

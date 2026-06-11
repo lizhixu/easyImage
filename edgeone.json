@@ -1,9 +1,0 @@
-{
-  "outputDirectory": "public",
-  "cloudFunctions": {
-    "nodejs": {
-      "maxDuration": 30,
-      "includeFiles": ["public/admin.html"]
-    }
-  }
-}
