@@ -73,7 +73,6 @@ function renderFiles() {
       <div class="file-actions">
         ${progressBadge}
         <button class="file-action" data-upload-one="${index}" type="button" title="上传"><svg class="icon"><use href="#i-upload"></use></svg></button>
-        <button class="file-action" type="button" title="编辑"><svg class="icon"><use href="#i-settings"></use></svg></button>
         <button class="file-action danger" data-remove-file="${index}" type="button" title="删除"><svg class="icon"><use href="#i-trash"></use></svg></button>
       </div>
     `;
@@ -261,6 +260,7 @@ async function uploadFiles(filesToUpload = selectedFiles) {
 }
 
 browseBtn.addEventListener('click', () => fileInput.click());
+dropZone.querySelector('.drop-title').addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => addFiles(fileInput.files));
 clearBtn.addEventListener('click', () => {
   revokeRemovedPreviews([]);

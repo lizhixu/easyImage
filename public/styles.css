@@ -601,7 +601,7 @@ output {
 .uploader .file-list:empty { display: none; }
 
 .uploader.has-files .file-list {
-  min-height: 354px;
+  min-height: 120px;
   max-height: 354px;
   background: var(--surface-subtle);
 }
