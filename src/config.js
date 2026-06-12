@@ -80,8 +80,12 @@ export const defaultStorageSettings = {
 };
 
 export const defaultApiSettings = {
+  nsfwProvider: process.env.NSFW_PROVIDER || 'nsfwjs',
   nsfwjsUrl: process.env.NSFWJS_URL || '',
-  nsfwThreshold: Number(process.env.NSFWJS_THRESHOLD || 0.6)
+  nsfwThreshold: Number(process.env.NSFWJS_THRESHOLD || 0.6),
+  sightengineApiUser: process.env.SIGHTENGINE_API_USER || '',
+  sightengineApiSecret: process.env.SIGHTENGINE_API_SECRET || '',
+  sightengineThreshold: Number(process.env.SIGHTENGINE_THRESHOLD || process.env.NSFWJS_THRESHOLD || 0.6)
 };
 
 export const defaultUploadSettings = {

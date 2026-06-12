@@ -53,11 +53,16 @@ S3_PUBLIC_BASE_URL=
 ### NSFW 检测
 
 ```env
+NSFW_PROVIDER=nsfwjs
 NSFWJS_URL=http://127.0.0.1:3307/api/nsfw/classify
 NSFWJS_THRESHOLD=0.6
+
+SIGHTENGINE_API_USER=
+SIGHTENGINE_API_SECRET=
+SIGHTENGINE_THRESHOLD=0.6
 ```
 
-上传合法图片时先写入正常存储生成可访问 URL，再调用 NSFWJS 接口。Porn / Hentai / Sexy 任一概率 ≥ 阈值则移入可疑存储。
+上传合法图片时先写入正常存储生成可访问 URL，再按 `NSFW_PROVIDER` 处理鉴黄，可选 `none`、`nsfwjs` 或 `sightengine`。选择 `none` 时不调用外部鉴黄服务；NSFWJS 会检测 Porn / Hentai / Sexy，Sightengine 会使用 `nudity-2.1` 检测 sexual_activity / sexual_display / erotica / very_suggestive / suggestive；任一分数 ≥ 对应阈值则移入可疑存储。
 
 ### 其他配置
 

@@ -397,8 +397,13 @@ function renderPagination(totalPages) {
 
 async function loadApiSettings() {
   const data = await api('/api/settings/api');
+  apiForm.elements.nsfwProvider.value = data.settings.nsfwProvider || 'nsfwjs';
   apiForm.elements.nsfwjsUrl.value = data.settings.nsfwjsUrl || '';
   apiForm.elements.nsfwThreshold.value = data.settings.nsfwThreshold || 0.6;
+  apiForm.elements.sightengineApiUser.value = data.settings.sightengineApiUser || '';
+  apiForm.elements.sightengineApiSecret.value = '';
+  apiForm.elements.sightengineApiSecret.placeholder = data.settings.hasSightengineApiSecret ? '已保存，留空则不修改' : '留空则不启用';
+  apiForm.elements.sightengineThreshold.value = data.settings.sightengineThreshold || 0.6;
 }
 
 function uploadOutputValue(name, value) {
@@ -558,8 +563,12 @@ document.querySelector('#tokenRows').addEventListener('click', async (event) => 
 apiForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const payload = {
+    nsfwProvider: apiForm.elements.nsfwProvider.value,
     nsfwjsUrl: apiForm.elements.nsfwjsUrl.value.trim(),
-    nsfwThreshold: Number(apiForm.elements.nsfwThreshold.value || 0.6)
+    nsfwThreshold: Number(apiForm.elements.nsfwThreshold.value || 0.6),
+    sightengineApiUser: apiForm.elements.sightengineApiUser.value.trim(),
+    sightengineApiSecret: apiForm.elements.sightengineApiSecret.value,
+    sightengineThreshold: Number(apiForm.elements.sightengineThreshold.value || 0.6)
   };
   try {
     await api('/api/settings/api', {

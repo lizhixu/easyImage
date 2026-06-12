@@ -226,7 +226,16 @@ app.put('/api/settings/storage', requireAdmin, async (req, res, next) => {
 
 app.get('/api/settings/api', requireAdmin, async (_req, res, next) => {
   try {
-    res.json({ result: 'success', code: 200, settings: await getApiSettings() });
+    const settings = await getApiSettings();
+    res.json({
+      result: 'success',
+      code: 200,
+      settings: {
+        ...settings,
+        sightengineApiSecret: '',
+        hasSightengineApiSecret: Boolean(settings.sightengineApiSecret)
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -235,10 +244,22 @@ app.get('/api/settings/api', requireAdmin, async (_req, res, next) => {
 app.put('/api/settings/api', requireAdmin, async (req, res, next) => {
   try {
     const settings = await updateApiSettings({
+      nsfwProvider: req.body.nsfwProvider,
       nsfwjsUrl: req.body.nsfwjsUrl,
-      nsfwThreshold: req.body.nsfwThreshold
+      nsfwThreshold: req.body.nsfwThreshold,
+      sightengineApiUser: req.body.sightengineApiUser,
+      sightengineApiSecret: req.body.sightengineApiSecret,
+      sightengineThreshold: req.body.sightengineThreshold
     });
-    res.json({ result: 'success', code: 200, settings });
+    res.json({
+      result: 'success',
+      code: 200,
+      settings: {
+        ...settings,
+        sightengineApiSecret: '',
+        hasSightengineApiSecret: Boolean(settings.sightengineApiSecret)
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -308,10 +329,15 @@ async function processFiles(files, uploaderIp, tokenId = null) {
     const createdAt = new Date().toISOString();
     const metadata = { original: encodeURIComponent(file.originalname), status: classified.status };
 
-    if (classified.status === 'active' && apiSettings.nsfwjsUrl && classified.mimeType.startsWith('image/')) {
+    const shouldCheckNsfw = apiSettings.nsfwProvider === 'none'
+      ? false
+      : apiSettings.nsfwProvider === 'sightengine'
+        ? apiSettings.sightengineApiUser && apiSettings.sightengineApiSecret
+        : apiSettings.nsfwjsUrl;
+    if (classified.status === 'active' && shouldCheckNsfw && classified.mimeType.startsWith('image/')) {
       await putObject({ target: bucket.target, bucketName: bucket.bucketName, key, body: file.buffer, contentType: classified.mimeType, metadata });
       let nsfw;
-      try { nsfw = await classifyNsfwUrl(publicUrl, apiSettings); } catch (e) { nsfw = { suspicious: true, reason: `NSFWJS 检测失败：${e.message}` }; }
+      try { nsfw = await classifyNsfwUrl(publicUrl, apiSettings); } catch (e) { nsfw = { suspicious: true, reason: `鉴黄检测失败：${e.message}` }; }
       if (nsfw.suspicious) {
         await deleteObject({ target: bucket.target, bucketName: bucket.bucketName, key }).catch(() => {});
         bucketType = 'suspicious'; bucket = resolveBucket(bucketType, storageSettings); publicUrl = publicUrlFor(bucket, key);

@@ -7,6 +7,7 @@ import { config, defaultApiSettings, defaultStorageSettings, defaultUploadSettin
 
 let client;
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const nsfwProviders = ['none', 'nsfwjs', 'sightengine'];
 
 function localDatabasePath() {
   if (!config.databaseUrl.startsWith('file:')) return null;
@@ -194,17 +195,32 @@ export async function updateStorageSettings(input) {
 
 export async function getApiSettings() {
   const saved = await getSetting('api', defaultApiSettings);
+  const nsfwProvider = nsfwProviders.includes(saved?.nsfwProvider)
+    ? saved.nsfwProvider
+    : defaultApiSettings.nsfwProvider;
   return {
     ...defaultApiSettings,
     ...saved,
-    nsfwThreshold: Number(saved?.nsfwThreshold ?? defaultApiSettings.nsfwThreshold)
+    nsfwProvider,
+    nsfwThreshold: Number(saved?.nsfwThreshold ?? defaultApiSettings.nsfwThreshold),
+    sightengineThreshold: Number(saved?.sightengineThreshold ?? defaultApiSettings.sightengineThreshold)
   };
 }
 
 export async function updateApiSettings(input) {
+  const current = await getApiSettings();
+  const nsfwProvider = nsfwProviders.includes(input.nsfwProvider)
+    ? input.nsfwProvider
+    : current.nsfwProvider;
   const next = {
+    nsfwProvider,
     nsfwjsUrl: String(input.nsfwjsUrl || '').trim(),
-    nsfwThreshold: Number(input.nsfwThreshold || defaultApiSettings.nsfwThreshold)
+    nsfwThreshold: Number(input.nsfwThreshold ?? defaultApiSettings.nsfwThreshold),
+    sightengineApiUser: String(input.sightengineApiUser || '').trim(),
+    sightengineApiSecret: input.sightengineApiSecret
+      ? String(input.sightengineApiSecret)
+      : current.sightengineApiSecret,
+    sightengineThreshold: Number(input.sightengineThreshold ?? defaultApiSettings.sightengineThreshold)
   };
   await setSetting('api', next);
   return next;

@@ -216,14 +216,37 @@
             </div>
             <form id="apiForm" class="api-form">
               <label>
+                <span>默认鉴黄服务</span>
+                <select name="nsfwProvider">
+                  <option value="none">不鉴黄</option>
+                  <option value="nsfwjs">NSFWJS</option>
+                  <option value="sightengine">Sightengine</option>
+                </select>
+                <small>选择“不鉴黄”时上传图片不会调用外部鉴黄服务。</small>
+              </label>
+              <label>
                 <span>nsfwjs URL</span>
                 <input name="nsfwjsUrl" placeholder="http://127.0.0.1:3307/api/nsfw/classify">
                 <small>系统会自动追加 url 参数，例如：/api/nsfw/classify?url=图片地址；也支持在地址中写 {url} 占位符。</small>
               </label>
               <label>
-                <span>判定阈值</span>
+                <span>NSFWJS 判定阈值</span>
                 <input name="nsfwThreshold" type="number" min="0" max="1" step="0.01" placeholder="0.6">
                 <small>Porn、Hentai、Sexy 任一 probability 大于等于该值时进入可疑存储。Drawing、Neutral 不参与可疑判定。</small>
+              </label>
+              <label>
+                <span>Sightengine API User</span>
+                <input name="sightengineApiUser" autocomplete="off" placeholder="123456789">
+              </label>
+              <label>
+                <span>Sightengine API Secret</span>
+                <input name="sightengineApiSecret" autocomplete="new-password" placeholder="留空则不修改" type="password">
+                <small>配置 API User 和 API Secret 后启用 Sightengine nudity-2.1 检测。</small>
+              </label>
+              <label>
+                <span>Sightengine 判定阈值</span>
+                <input name="sightengineThreshold" type="number" min="0" max="1" step="0.01" placeholder="0.6">
+                <small>sexual_activity、sexual_display、erotica、very_suggestive、suggestive 任一分数大于等于该值时进入可疑存储。</small>
               </label>
               <div class="settings-actions">
                 <button class="btn primary" type="submit"><svg class="icon"><use href="#i-save"></use></svg>保存 API 配置</button>
